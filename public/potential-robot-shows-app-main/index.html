@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<!-- 
+  author: Brenda Ruiz
+  version: 1.1 (dev box)
+  date: 2024
+  github: bjruiz
+-->
+<head>
+  <meta charset="UTF-8">
+  <title>shows-app</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
+  <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.0.2/css/bootstrap.min.css'>
+  <link rel="stylesheet" href="styles/shows-style.css">
+
+</head>
+
+<body>
+  <!-- code for the hamburger menu -->
+  <nav class="navbar navbar-expand-lg navbar-dark">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="#">
+        <i class="bi bi-tv"></i>
+        Shows to Watch App</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+        aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav">
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="#">Need to watch</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="pages/about.html">About Me</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" target="repo" href="https://github.com/bjruiz/potential-robot-shows-app/">
+              &lt;Source Code <i class="bi bi-github"></i>&gt;</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" target="nu" href="https://validator.w3.org/nu/?showsource=yes&doc=https%3A%2F%2Fbjruiz.github.io%2Fpotential-robot-shows-app%2F#textarea">
+            Check Page Validity</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <main class="m-2 p-2 row">
+    <div class="col-lg-8 offset-lg-2">
+    <h2>Shows to Watch</h2>
+    <div class="mb-3">
+      
+      <button id="btnAddShow" class="btn btn-outline-dark" data-bs-toggle="modal" data-bs-target="#addShowModal">add show</button>
+      
+      <button id="btnShowAll" class="btn btn-dark btn-sm">show all</button>
+      <button id="btnHideAll" class="btn btn-dark btn-sm">hide all</button>
+  
+      <button id="btnConsoleData" class="btn btn-dark btn-sm">write data object in console</button>
+  
+    </div>
+  
+      <!-- Modal -->
+      <div id="addShowModal" class="modal fade" tabindex="-1" aria-labelledby="addShowModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Add New Show</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <ul class="list-group">
+  
+                <li class="input-group w-100">
+                  <span class="w-20 input-group-text">show title</span>
+                  <input id="showAddTitle" type="text" class="form-control" placeholder="show title">
+                </li>
+  
+                <li class="input-group w-100">
+                  <span class="w-20 input-group-text">genre</span>
+                  <input id="showAddGenre" type="text" class="form-control" placeholder="genre" >
+                </li>
+  
+                <li class="input-group w-100">
+                  <span class="w-20 input-group-text">rating</span>
+                  <input id="showAddRating" type="text" class="form-control" placeholder="rating">
+                </li>
+            
+                <li class="input-group w-100">
+                  <span class="w-20 input-group-text">platform</span>
+                   <input id="showAddPlatform" type="text" class="form-control" placeholder="platform">
+                </li>
+            
+                <li class="input-group w-100">
+                  <span class="w-20 input-group-text">watched?</span>
+                  <input id="showAddWatched" type="text" class="form-control" placeholder="watched">
+                </li>
+            
+              </ul>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+              <button id="btnSaveShow" type="button" class="btn btn-primary">save show</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    <ul id="showsList" class="list-group">
+      <li class="list-group"><i>no shows loaded</i></li>
+    </ul>
+  </main>
+
+  <!--  code for footer section-->
+  <footer class="bg-body-tertiary text-center text-lg-start fixed-bottom">
+    <div class="text-center p-3">
+      © 2024 Copyright:
+      <a href="https://github.com/bjruiz" target="github">my github</a> | 
+      <!-- <a href="README.md" target="README">README</a> -->
+    </div>
+  </footer>
+
+  <!-- scripts go here -->
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js'></script>
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.13.3/jquery-ui.min.js'></script>
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/js/bootstrap.min.js'></script>
+  <script src='scripts/shows-scripts.js'></script>
+  <script src='scripts/data.js'></script>
+  
+</body>
+</html>
