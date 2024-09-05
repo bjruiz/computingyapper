@@ -1,5 +1,6 @@
 console.log('im on the server');
 
+require('dotenv').config()
 const express = require('express')
 const app = express()
 app.set('view engine', 'ejs')
@@ -34,6 +35,24 @@ async function run() {
 }
 run().catch(console.dir);
 
+//function wtvNameOfIt(params){}
+//whatever() =>{}
+//iife?
+
+app.get('/mongo', async(req, res) =>{
+  console.log("in /mongo");
+  //await
+  await client.connect();
+  console.log("connected");
+  // Send a ping to confirm a successful connection
+  let result = await client.db("brendasDB").collection("whatever-collection")
+  .find({}).toArray();
+  console.log(result);
+
+  res.render('mongo', {
+    mongoResult: result[0].post
+  });
+})
 
 app.get('/', function (req, res) {
   res.sendFile('index.html')
