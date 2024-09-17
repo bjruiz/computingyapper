@@ -3,9 +3,9 @@ console.log('im on the server');
 require('dotenv').config()
 const express = require('express')
 const app = express()
-// const bodyParser = require('body-parser')
-// const { urlencoded } = require('body-parser')
-// const { ObjectId } = require('mongodb')
+const bodyParser = require('body-parser')
+const { urlencoded } = require('body-parser')
+const { ObjectId } = require('mongodb')
 app.set('view engine', 'ejs')
 app.use(express.static('./public/potential-robot-shows-app-main'))
 
@@ -42,21 +42,6 @@ run().catch(console.dir);
 //whatever() =>{}
 //iife?
 
-app.get('/mongo', async(req, res) =>{
-  console.log("in /mongo");
-  //await
-  await client.connect();
-  console.log("connected");
-  // Send a ping to confirm a successful connection
-  let result = await client.db("brendasDB").collection("whatever-collection")
-  .find({}).toArray();
-  console.log(result);
-
-  res.render('mongo', {
-    mongoResult: result[0].post
-  });
-})
-
 app.get('/', function (req, res) {
   res.sendFile('index.html')
 })
@@ -84,7 +69,7 @@ app.get('/read', async (req,res)=>{
   console.log(result); 
 
   res.render('mongo', {
-    mongoResult : result
+    postData: result
   });
 
 })
@@ -101,29 +86,34 @@ app.get('/insert', async(req, res)=>{
   res.render('insert');
 });
 
-// app.get('/update', async(req, res)=>{
-//   console.log("in /update");
+app.post('/update/:id', async (req,res)=>{
 
-//   let result = await client.db("brendasDB").collection("whatever-collection")
-//     .find({}).toArray(); 
+  console.log("req.parms.id: ", req.params.id)
 
-//   res.render('update', {
-//     postData: result
-//   });
-  
-//   //await
-//   await client.connect();
-//   // Send a ping to confirm a successful connection
-//   await client.db("brendasDB").collection("whatever-collection")
-//   .findOneAndUpdate(
-//     {$set: {"post": "another day "}},
-//     {$set: {"post": "another another day "}}
-  
-//   );
+  client.connect; 
+  const collection = client.db("brendasDB").collection("whatever-collection");
+  let result = await collection.findOneAndUpdate( 
+  {"_id": new ObjectId(req.params.id)}, { $set: {"post": "NEW POST" } }
+)
+.then(result => {
+  console.log(result); 
+  res.redirect('/read');
+})
+});
 
-  
+app.post('/delete/:id', async (req,res)=>{
 
-// })
+  console.log("req.parms.id: ", req.params.id)
 
+  client.connect; 
+  const collection = client.db("brendasDB").collection("whatever-collection");
+  let result = await collection.findOneAndDelete( 
+  {"_id": new ObjectId(req.params.id)}, { $set: {"post": "NEW POST" } }
+)
+.then(result => {
+  console.log(result); 
+  res.redirect('/read');
+})
+});
 
-app.listen(5000)
+app.listen(5000);
