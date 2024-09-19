@@ -9,9 +9,9 @@ const { ObjectId } = require('mongodb')
 app.set('view engine', 'ejs')
 app.use(express.static('./public/potential-robot-shows-app-main'))
 
-
 const { MongoClient, ServerApiVersion } = require('mongodb');
-const uri = process.env.uri;
+const uri = `mongodb+srv://bjruiz:${process.env.MONGO_PWD}@cluster0.rbl2d.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0`; 
+
 
 console.log(uri);
 
