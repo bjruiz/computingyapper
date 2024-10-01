@@ -42,16 +42,15 @@ run().catch(console.dir);
 //whatever() =>{}
 //iife?
 
-app.get('/', function (req, res) {
-  res.sendFile('index.html')
+app.get('/styles', function (req, res) {
+  res.render('shows-style.css')
 })
 
 app.get('/ejs', (res, req)=>{
-  ``
-  res.render('/index',{
+  
+  res.render('index',{
     myServerVariable : "something from server"
   });
-
 //can you get content from client...to console?
 
 })
@@ -68,22 +67,25 @@ app.get('/read', async (req,res)=>{
     .find({}).toArray(); 
   console.log(result); 
 
-  res.render('mongo', {
+  res.render('read', {
     postData: result
   });
 
 })
 
 
-app.get('/insert', async(req, res)=>{
+app.post('/insert', async(req, res)=>{
   console.log("in /insert");
-  //await
-  await client.connect();
-  // Send a ping to confirm a successful connection
-  await client.db("brendasDB").collection("whatever-collection")
-  .insertOne({post:'hardcoded post insert'});
 
-  res.render('insert');
+  console.log('request', req.body);
+  console.log('request', req.body.newPost);
+
+
+  await client.connect();
+  await client.db("brendasDB").collection("whatever-collection")
+  .insertOne({post: req.body.newPost});
+
+  res.redirect('read');
 });
 
 app.post('/update/:id', async (req,res)=>{
@@ -108,12 +110,14 @@ app.post('/delete/:id', async (req,res)=>{
   client.connect; 
   const collection = client.db("brendasDB").collection("whatever-collection");
   let result = await collection.findOneAndDelete( 
-  {"_id": new ObjectId(req.params.id)}, { $set: {"post": "NEW POST" } }
-)
+  {"_id": new ObjectId(req.params.id)})
+
 .then(result => {
   console.log(result); 
   res.redirect('/read');
 })
-});
+
+
+})
 
 app.listen(5000);
