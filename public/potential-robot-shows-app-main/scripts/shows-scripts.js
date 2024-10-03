@@ -88,6 +88,10 @@ $( document ).ready(function() {
   
       data.shows.push({ 
         title : $('#showAddTitle').val(),
+        genre : $('#showAddGenre').val(),
+        rating : $('#showAddRating').val(),
+        platform : $('#showAddPlatform').val(),
+        watched : false
       }); 
     
       loadShowsData("showsList");
