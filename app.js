@@ -6,6 +6,8 @@ const app = express()
 const bodyParser = require('body-parser')
 const { urlencoded } = require('body-parser')
 const { ObjectId } = require('mongodb')
+const PORT = process.env.PORT || 3000;
+
 app.set('view engine', 'ejs')
 app.use(express.static('./public/potential-robot-shows-app-main'))
 
@@ -120,4 +122,8 @@ app.post('/delete/:id', async (req,res)=>{
 
 })
 
-app.listen(5000);
+//app.listen(5000);
+
+app.listen(PORT, () =>{
+  console.log(`Server is running &listening on port 3000`);
+});
