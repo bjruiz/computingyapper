@@ -1,13 +1,11 @@
-<h1>see my mongoDB results</h1>
-
-<h1>Insert  something into mongo</h1>
+<h1>Insert something into mongo</h1>
 <form method="POST" action="/insert" style="display: inline-block">
   <label for="newPost">Data:</label>
   <input id="newPost" name="newPost">
   <input type="submit" value="update">
 </form>
 
-<h3> my blog posts</h3> 
+<h3>my data posts</h3> 
  <% for (var i=0; i< postData.length; i++ ) { %>
   <form method="POST" action="/update/<%= postData[i]._id %>" style="display: inline-block">  
     <%= postData[i].post %> 

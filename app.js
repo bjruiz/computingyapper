@@ -41,14 +41,27 @@ run().catch(console.dir);
 //function wtvNameOfIt(params){}
 //whatever() =>{}
 //iife?
+let data = {
+  title: 'Need to Watch'
+};
 
-app.get('/', (req, res)=>{
+let showsData = {};
+
+app.get('/ejs', (req, res)=>{
   
   res.render('index',{
-    myServerVariable
+    showsApp : data,
+    useApp : showsData
   });
-//can you get content from client...to console?
-})
+
+});
+
+app.post('/ejs', (req, res)=>{
+  showsData = {
+    title: req.body.inputTitle
+  };
+  res.redirect('/ejs');
+});
 
 app.get('/read', async (req,res)=>{
 
