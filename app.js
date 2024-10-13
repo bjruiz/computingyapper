@@ -71,7 +71,7 @@ app.get('/read', async (req,res)=>{
   console.log('connected?');
   // Send a ping to confirm a successful connection
   
-  let result = await client.db("brendasDB").collection("whatever-collection")
+  let result = await client.db("brendasDB").collection("shows-collection")
     .find({}).toArray(); 
   console.log(result); 
 
@@ -84,49 +84,55 @@ app.get('/read', async (req,res)=>{
 
 app.post('/insert', async(req, res)=>{
   console.log('in /insert');
-
-  console.log('request', req.body);
-  console.log('request', req.body.newPost);
-
-
+  
   await client.connect();
-  await client.db("brendasDB").collection("whatever-collection")
-  .insertOne({post: req.body.newPost});
+  await client.db("brendasDB").collection("shows-collection")
+  .insertOne({
+    title: req.body.title,
+    genre: req.body.genre,
+    rating: req.body.rating,
+    platform: req.body.platform,
+    watched: req.body.watched
+  
+  });
 
   res.redirect('read');
 });
 
 app.post('/update/:id', async (req,res)=>{
 
-  console.log("req.parms.id: ", req.params.id)
+  console.log("Updated post with id ", req.params.id)
 
   client.connect; 
-  const collection = client.db("brendasDB").collection("whatever-collection");
+  const collection = client.db("brendasDB").collection("shows-collection");
   let result = await collection.findOneAndUpdate( 
-  {"_id": new ObjectId(req.params.id)}, { $set: {"post": "NEW POST" } }
-)
-.then(result => {
-  console.log(result); 
-  res.redirect('/read');
-})
+  {_id: new ObjectId(req.params.id)}, 
+  { 
+    $set: {
+      title: req.body.title,
+      genre: req.body.genre,
+      rating: req.body.rating,
+      platform: req.body.platform,
+      watched: req.body.watched 
+    } 
+  }
+);
+res.redirect('/read');
 });
+
 
 app.post('/delete/:id', async (req,res)=>{
 
-  console.log("req.parms.id: ", req.params.id)
-
   client.connect; 
-  const collection = client.db("brendasDB").collection("whatever-collection");
+  const collection = client.db("brendasDB").collection("shows-collection");
   let result = await collection.findOneAndDelete( 
-  {"_id": new ObjectId(req.params.id)})
+  {_id: new ObjectId(req.params.id)});
 
-.then(result => {
-  console.log(result); 
-  res.redirect('/read');
-})
+res.redirect('/read');
+});
 
 
-})
+
 
 //app.listen(5000);
 
