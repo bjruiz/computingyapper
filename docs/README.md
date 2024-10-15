@@ -20,15 +20,21 @@ v/hx
 1.1 Local Dev Box (.zip)
 
 ### Made with ♥️
-w3schools
-Google Chrome
-vsCode
-LiveServer
-bootstrap
-ajax
-json
-html
-css
-dotenv
-etc.
+- w3schools
+- Google Chrome
+- VSCode
+- LiveServer
+- bootstrap
+- ajax
+- json
+- html
+- css
+- dotenv
+- node.js
+- express
+- nodemon
+- render
+- mongoDB
+- ejs
+- etc.
 
