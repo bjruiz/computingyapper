@@ -11,16 +11,22 @@ $(document).ready(function () {
     $('#showsList li').show();
   });
 
+  $('#btnClearAll').on('click', function () {
+    console.log('clear all button clicked');
+    $('#showsList').empty();
+  });
+
   loadShowsData("showsList");
 
+ 
 });
 
 function loadShowsData(appendId) {
   let appendElement = $(`#${appendId}`);
-  //appendElement.empty();
+  
 
   $.ajax({
-    url: '/',
+    url: '/read',
     type: 'GET',
     success: function (response) {
       if (response && response.postData) {
@@ -29,15 +35,20 @@ function loadShowsData(appendId) {
         $.each(response.postData, (index, show) => {
           appendElement.append(`
             <li id="showsNo${index}Title" class="list-group-item mb-1">
-              <strong>Title:</strong><%= show.title %><input type="text" class="form-control editTable" value="${show.title}" readonly><br>
-              <strong>Genre:</strong><%= show.genre %><input type="text" class="form-control editTable" value="${show.genre}" readonly><br>
-              <strong>Rating:</strong><%= show.rating %><input type="text" class="form-control editTable" value="${show.rating}" readonly><br>
-              <strong>Platform:</strong><%= show.platform %><input type="text" class="form-control editTable" value="${show.platform}" readonly><br> 
-              <strong>Watched:</strong><%= show.watched %><input type="text" class="form-control editTable" value="${show.watched}" readonly><br>
+              <strong>Title:</strong>
+              <input type="text" class="form-control editTitle" value="${show.title}" readonly><br>
+              <strong>Genre:</strong>
+              <input type="text" class="form-control editGenre" value="${show.genre}" readonly><br>
+              <strong>Rating:</strong>
+              <input type="text" class="form-control editRating" value="${show.rating}" readonly><br>
+              <strong>Platform:</strong>
+              <input type="text" class="form-control editPlatform" value="${show.platform}" readonly><br> 
+              <strong>Watched:</strong>
+              <input type="text" class="form-control editWatched" value="${show.watched}" readonly><br>
 
 
-              <button class="btn btn-primary btn-sm editBtn" data-id="${shows._id}">Edit</button>
-              <button class="btn btn-success btn-sm saveBtn" data-id="${shows._id}" style="display:none;">Save</button>
+              <button class="btn btn-primary btn-sm editBtn" data-id="${show._id}">Edit</button>
+              <button class="btn btn-success btn-sm saveBtn" data-id="${show._id}" style="display:none;">Save</button>
             </li>` 
           );
         });
@@ -54,25 +65,25 @@ function loadShowsData(appendId) {
 
 function addEvents() {
 
-  $('.editBtn').on('click', (e) => {
+  $('.editBtn').on('click', function(){
     const $parent = $(this).closest('li');
 
-    $parent.find('.editTable').prop('readonly', false);
+    $parent.find('input').prop('readonly', false);
 
     $(this).hide();
     $parent.find('.saveBtn').show();
   });
 
-  $('.savebBtn').on('click', (e) => {
+  $('.saveBtn').on('click', function(){
     const showId = $(this).data('id');
     const $parent = $(this).closest('li');
 
     const updatedShow = {
-      title: $parent.find('editTitle').val(),
-      genre: $parent.find('editGenre]').val(),
-      rating: $parent.find('editRating]').val(),
-      platform: $parent.find('editPlatform').val(),
-      watched: $parent.find('editWatched').val()
+      title: $parent.find('.editTitle').val(),
+      genre: $parent.find('.editGenre').val(),
+      rating: $parent.find('.editRating').val(),
+      platform: $parent.find('.editPlatform').val(),
+      watched: $parent.find('.editWatched').val()
     };
 
     $.ajax({
@@ -116,33 +127,6 @@ function addEvents() {
         console.error('Error adding show:', err);
       }
     });
-  });
-
-
-  $('input.editShow').on('blur', (e) => {
-    let $this = $(e.target);
-    let showIndex = $this.attr('id').match(/\d+/g)[0];
-    let showKey = $this.attr('name');
-
-    let updatedShow = {};
-    updatedShow[showKey] = $this.val();
-
-    $.ajax({
-      url: `/update${showIndex}`,
-      type: 'POST',
-      data: updatedShow,
-      success: function () {
-        $this.prop('readonly', true);
-      },
-      error: function (err) {
-        console.error('Error updating show:', err);
-      }
-    });
-  });
-
-  //output data to console
-  $('#btnConsoleData').on('click', () => {
-    console.log("Show data: ", data.shows);
   });
 
 }

@@ -65,10 +65,10 @@
         <button id="btnAddShow" class="btn btn-outline-dark" data-bs-toggle="modal" data-bs-target="#addShowModal">add
           show</button>
 
-        <button id="btnShowAll" class="btn btn-dark btn-sm">show all</button>
-        <button id="btnHideAll" class="btn btn-dark btn-sm">hide all</button>
+        <button id="btnShowAll" class="btn btn-dark btn-sm">Show all</button>
+        <button id="btnHideAll" class="btn btn-dark btn-sm">Hide all</button>
 
-        <button id="btnConsoleData" class="btn btn-dark btn-sm">write data object in console</button>
+        <button id="btnClearAll" class="btn btn-dark btn-sm">Clear All</button>
 
       </div>
 
@@ -124,15 +124,19 @@
         <% if(showsList.length > 0) { %>
           <% showsList.forEach(function(show) { %>
             <li class="list-group-item">
-              <strong>Title:</strong><%= show.title %><br>
-              <strong>Genre:</strong><%= show.genre %><br>
-              <strong>Rating:</strong><%= show.rating %><br>
-              <strong>Platform:</strong><%= show.platform %><br>
-              <strong>Watched:</strong><%= show.watched %><br>
+              <strong>Title:</strong>
+              <input type="text" class="form-control editTitle" value="<%= show.title %>" readonly><br>
+              <strong>Genre:</strong>
+              <input type="text" class="form-control editGenre" value="<%= show.genre %>" readonly><br>
+              <strong>Rating:</strong>
+              <input type="text" class="form-control editRating" value="<%= show.rating %>" readonly><br>
+              <strong>Platform:</strong>
+              <input type="text" class="form-control editPlatform" value="<%= show.platform %>" readonly><br>
+              <strong>Watched:</strong>
+              <input type="text" class="form-control editWatched" value="<%= show.watched %>" readonly><br>
 
-              <form method="POST" action="/update/<%= show._id %>" class="d-inline">
-                <button type="submit" class="btn btn-warning btn-sm" value="update">Edit</button>
-              </form>
+              <button class="btn btn-primary btn-sm editBtn" data-id="<%= show._id %>">Edit</button>
+              <button class="btn btn-success btn-sm saveBtn" data-id="<%= show._id %>" style="display: none">Save</button>
               <form method="POST" action="/delete/<%= show._id %>" class="d-inline">
                 <button type="submit" class="btn btn-danger btn-sm" value="update">Delete</button>
               </form>
