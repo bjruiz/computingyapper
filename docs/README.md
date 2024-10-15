@@ -19,7 +19,7 @@ v/hx
 1.0 codepen
 1.1 Local Dev Box (.zip)
 
-### Made with :love:
+### Made with ♥️
 w3schools
 Google Chrome
 vsCode
