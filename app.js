@@ -14,36 +14,22 @@ app.use(express.static('./public/potential-robot-shows-app-main'))
 
 console.log(uri);
 
-// Create a MongoClient with a MongoClientOptions object to set the Stable API version
-let client;
-async function connectToDb() {
-  if (!client) {
-    client = new MongoClient(uri, {
-      serverApi: {
-        version: ServerApiVersion.v1,
-        strict: true,
-        deprecationErrors: true,
-      }
-    });
-    await client.connect();
-    console.log('im on the server:)');
+const client = new MongoClient(uri, {
+  serverApi: {
+    version: ServerApiVersion.v1,
+    strict: true,
+    deprecationErrors: true,
   }
-  return client;
-}
+});
 
 app.get('/', async (req, res) => {
-  try {
-    const client = await connectToDb();
-    const shows = await client.db("brendasDB").collection("shows-collection").find().toArray();
-    console.log("Shows fetched from DB:", shows);
-    res.render('index', {
-      showsApp: { title: 'Shows to Watch App' },
-      showsList: shows
-    });
-  } catch (error) {
-    console.error(error);
-    res.status(500).send('error retrieving shows');
-  }
+
+  const shows = await client.db("brendasDB").collection("shows-collection").find().toArray();
+  console.log("Shows fetched from DB:", shows);
+  res.render('index', {
+    showsApp: { title: 'Shows to Watch App' },
+    showsList: shows
+  });
 });
 
 app.post('/insert', async (req, res) => {
@@ -55,15 +41,10 @@ app.post('/insert', async (req, res) => {
     platform: req.body.platform,
     watched: req.body.watched === 'true'
   };
-  try {
-    const client = await connectToDb();
-    await client.db("brendasDB").collection("shows-collection")
-      .insertOne(newShow);
-    res.redirect('/');
-  } catch (error) {
-    console.error(error);
-    res.status(500).send('error adding show');
-  }
+  await client.connect();
+  await client.db("brendasDB").collection("shows-collection")
+    .insertOne(newShow);
+  res.redirect('/');
 });
 
 app.post('/update/:id', async (req, res) => {
@@ -75,32 +56,27 @@ app.post('/update/:id', async (req, res) => {
     platform: req.body.platform,
     watched: req.body.watched
   };
-  try {
-    const client = await connectToDb();
-    await client.db("brendasDB").collection("shows-collection")
-      .findOneAndUpdate(
-        { _id: new ObjectId(showId) },
-        { $set: updatedShow }
-      );
-    res.redirect('/');
-  } catch (error) {
-    console.error(error);
-    res.status(500).send('error updating show');
-  }
+  client.connect();
+  const collection = client.db("brendasDB").collection("shows-collection");
+  let result = await collection.findOneAndUpdate(
+      { _id: new ObjectId(showId) },
+      { $set: updatedShow }
+    )
+    .then(result => {
+      res.redirect('/');
+    })
 });
 
 
 app.post('/delete/:id', async (req, res) => {
   const showId = req.params.id;
-  try {
-    const client = await connectToDb();
-    await client.db("brendasDB").collection("shows-collection")
-      .findOneAndDelete({ _id: new ObjectId(showId) });
-    res.redirect('/');
-  } catch (error) {
-    console.error(error);
-    res.status(500).send('error deleting show');
-  }
+    client.connect();
+    const collection = client.db("brendasDB").collection("shows-collection");
+    let result = await collection.findOneAndDelete(
+      { _id: new ObjectId(showId) })
+    .then(result => {
+      res.redirect('/');
+    })
 });
 
 app.listen(PORT, () => {
