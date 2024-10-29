@@ -4,7 +4,7 @@ const app = express()
 const bodyParser = require('body-parser')
 const { urlencoded } = require('body-parser')
 const { ObjectId } = require('mongodb')
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 10000;
 const { MongoClient, ServerApiVersion } = require('mongodb');
 const uri = `mongodb+srv://bjruiz:${process.env.MONGO_PWD}@cluster0.rbl2d.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0`;
 
